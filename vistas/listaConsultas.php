@@ -7,7 +7,6 @@
 
   <?php include "menu.php"; ?>
 
-
 </head>
 
 <body>
