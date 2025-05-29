@@ -20,63 +20,47 @@
 </button>
 
     <div class="table-responsive shadow rounded">
-    <table id="tablaConsultas" class="table table-bordered table-striped table-hover">
-            <thead class="table-dark">
-            <tr>
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Teléfono</th>
-                <th>Correo</th>
-                <th>Acciones</th>
-            </tr>
-            </thead>
+    <table id="tablaConsultas" class="table table-bordered table-striped table-hover text-center">
+      <thead class="table-dark">
+        <tr>
+          <th>Id</th>
+          <th>Nombre</th>
+          <th>Teléfono</th>
+          <th>Correo</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+          include('../modelos/conexion.php');
 
+          $query = "SELECT `id_cliente`, `nombre`, `telefono`, `correo` FROM `clientes`";
+          $res = $conexion->query($query);
 
-
-            <tbody>
-
-            <?php
-                
-                include('../modelos/conexion.php');
-
-                $query="SELECT `id_cliente`, `nombre`, `telefono`, `correo` FROM `clientes`";
-
-                $res=$conexion->query($query);
-
-                while($row=$res->fetch_assoc()) 
-                {
-                    ?>
-                    <tr>
-                        <td><?php echo $row['id_cliente'] ?> </td>
-                    <td><?php echo $row['nombre'] ?> </td>
-                    <td><?php echo $row['telefono'] ?> </td>
-                    <td><?php echo $row['correo'] ?></td>
-                    <td class="text-center">
-
-                      <a href="../controladores/eliminarClientes.php?ide= <?php echo $row['id_cliente'];?>" 
-                        class="btn btn-xs btn-danger" data-toggle="tooltip" title="Eliminar" 
-                        <span class="fas fa-trash">Eliminar</span>
-                        </a>
-
-
-                        <a href="../vistas/editarFrmClientes.php?ide= <?php echo $row['id_cliente'];?>" 
-                        class="btn btn-success" data-toggle="tooltip" title="Editar" 
-                        <span class="fas fa-trash">Actualizar</span>
-                        </a>
-                        
-                        
-                    </td>
-                    </tr>
-                <?php
-                }
-               
-            ?>      
-
-            
-            </tbody>
-
-        </table>
-    </div>
+          while($row = $res->fetch_assoc()) {
+        ?>
+          <tr>
+            <td><?php echo $row['id_cliente']; ?></td>
+            <td><?php echo $row['nombre']; ?></td>
+            <td><?php echo $row['telefono']; ?></td>
+            <td><?php echo $row['correo']; ?></td>
+            <td class="text-center">
+              <div class="d-flex justify-content-center gap-2">
+                <a href="../controladores/eliminarClientes.php?ide=<?php echo $row['id_cliente'];?>" 
+                   class="btn btn-danger btn-sm" data-bs-toggle="tooltip" title="Eliminar">
+                  <i class="bi bi-trash"> Eliminar</i>
+                </a>
+                <a href="../vistas/editarFrmClientes.php?ide=<?php echo $row['id_cliente'];?>" 
+                   class="btn btn-success btn-sm" data-bs-toggle="tooltip" title="Editar">
+                  <i class="bi bi-pencil"> Editar</i>
+                </a>
+              </div>
+            </td>
+          </tr>
+        <?php } ?>
+      </tbody>
+    </table>
+  </div>
  </div>    
 
 
@@ -129,6 +113,14 @@
     </div>
   </div>
 </div>
+
+
+<script>
+  document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (el) {
+    new bootstrap.Tooltip(el)
+  })
+</script>
+
 
 </body>
 </html>

@@ -73,11 +73,11 @@
                     <div class="d-flex justify-content-center gap-2">
                       <a href="../controladores/eliminarConsultas.php?ide=<?php echo $row['id_consulta'];?>" 
                         class="btn btn-danger btn-sm" data-bs-toggle="tooltip" title="Eliminar">
-                        <i class="bi bi-trash"></i> Eliminar
+                        <i class="bi bi-trash"> Eliminar</i> 
                       </a>
                       <a href="../vistas/editarFrmConsultas.php?ide=<?php echo $row['id_consulta'];?>" 
                         class="btn btn-success btn-sm" data-bs-toggle="tooltip" title="Editar">
-                        <i class="bi bi-pencil"></i> Editar
+                        <i class="bi bi-pencil"> Editar</i>
                       </a>
                     </div>
 
@@ -122,9 +122,7 @@
       <label class="form-label">Mascota</label>
       <select name="id_mascota" class="form-select">
         <option value="">Seleccione...</option>
-                     
                         <?php
-
                             include('../modelos/conexion.php'); 
 
                             $query="SELECT `id_mascota`, `nombre` FROM `mascotas`";
@@ -154,7 +152,7 @@
       <label class="form-label">Veterinario</label>
       <select name="id_veterinario" class="form-select">
         <option value="">Seleccione...</option>
-                     
+                
                         <?php
 
                             include('../modelos/conexion.php'); 

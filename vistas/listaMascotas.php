@@ -20,75 +20,66 @@
 </button>
 
 <div class="table-responsive shadow rounded">
-    <table id="tablaConsultas" class="table table-bordered table-striped table-hover">
-      <thead class="table-dark">
+  <table id="tablaConsultas" class="table table-bordered table-striped table-hover text-center">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Especie</th>
+        <th>Raza</th>
+        <th>Edad</th>
+        <th>ID Cliente</th>
+        <th>Nombre Cliente</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
+        include('../modelos/conexion.php');
+
+        $query = "SELECT 
+                    mascotas.id_mascota, 
+                    mascotas.nombre, 
+                    mascotas.especie, 
+                    mascotas.raza, 
+                    mascotas.edad, 
+                    mascotas.id_cliente, 
+                    clientes.nombre AS nombre_cliente
+                  FROM mascotas
+                  INNER JOIN clientes ON mascotas.id_cliente = clientes.id_cliente";
+
+        $res = $conexion->query($query);
+
+        while($row = $res->fetch_assoc()) {
+      ?>
         <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Especie</th>
-            <th>Raza</th>
-            <th>Edad</th>
-            <th>ID Cliente</th>
-            <th>Nombre Cliente</th>
-            <th>Acciones</th>
+          <td><?php echo $row['id_mascota']; ?></td>
+          <td><?php echo $row['nombre']; ?></td>
+          <td><?php echo $row['especie']; ?></td>
+          <td><?php echo $row['raza']; ?></td>
+          <td><?php echo $row['edad']; ?></td>
+          <td><?php echo $row['id_cliente']; ?></td>
+          <td><?php echo $row['nombre_cliente']; ?></td>
+          <td>
+            <div class="d-flex justify-content-center gap-2">
+              <a href="../controladores/eliminarMascotas.php?ide=<?php echo $row['id_mascota']; ?>" 
+                class="btn btn-danger btn-sm" data-bs-toggle="tooltip" title="Eliminar">
+                <i class="bi bi-trash"></i> Eliminar
+              </a>
+              <a href="../vistas/editarFrmMascotas.php?ide=<?php echo $row['id_mascota']; ?>" 
+                class="btn btn-success btn-sm" data-bs-toggle="tooltip" title="Editar">
+                <i class="bi bi-pencil"></i> Editar
+              </a>
+            </div>
+          </td>
         </tr>
-        </thead>
-        <tbody>
+      <?php
+        }
+      ?>
+    </tbody>
+  </table>
+</div>
 
-            <?php
-
-            include('../modelos/conexion.php');
-
-            $query = "SELECT 
-                        mascotas.id_mascota, 
-                        mascotas.nombre, 
-                        mascotas.especie, 
-                        mascotas.raza, 
-                        mascotas.edad, 
-                        mascotas.id_cliente, 
-                        clientes.nombre AS nombre_cliente
-                    FROM mascotas
-                    INNER JOIN clientes ON mascotas.id_cliente = clientes.id_cliente";
-
-            $res = $conexion->query($query);
-
-            while($row = $res->fetch_assoc()) 
-            {
-                ?>
-                <tr>
-                    <td><?php echo $row['id_mascota'] ?> </td>
-                    <td><?php echo $row['nombre'] ?> </td>
-                    <td><?php echo $row['especie'] ?> </td>
-                    <td><?php echo $row['raza'] ?></td>
-                    <td><?php echo $row['edad'] ?></td>
-                    <td><?php echo $row['id_cliente'] ?></td>
-                    <td><?php echo $row['nombre_cliente'] ?></td>
-                    <td class="text-center">
-                        <!-- Botones opcionales -->
-                         
-                        <a href="../controladores/eliminarMascotas.php?ide= <?php echo $row['id_mascota'];?>" 
-                        class="btn btn-xs btn-danger" data-toggle="tooltip" title="Eliminar" 
-                        <span class="fas fa-trash">Eliminar</span>
-                        </a>
-
-
-                        <a href="../vistas/editarFrmMascotas.php?ide= <?php echo $row['id_mascota'];?>" 
-                        class="btn btn-success" data-toggle="tooltip" title="Editar" 
-                        <span class="fas fa-trash">Actualizar</span>
-                        </a>
-                      
-
-                    </td>
-                </tr>
-            <?php
-            }
-            ?>
-
-
-        </tbody>
-
-    </table>
-    </div>
  </div>    
 
 
@@ -166,6 +157,10 @@
     </div>
   </div>
 </div>
-
+<script>
+  document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (el) {
+    new bootstrap.Tooltip(el)
+  })
+</script>
 </body>
 </html>
